@@ -192,6 +192,7 @@
   .card__icon svg { width: 26px; height: 26px; }
   .card h3 { margin-bottom: var(--s-2); }
   .card__meta { font-size: var(--fs-sm); color: var(--gold-ink); font-weight: 600; margin-bottom: var(--s-2); }
+  .card__meta svg { display: inline-block; width: 15px; height: 15px; vertical-align: -2px; margin-right: 4px; flex: none; }
   .card p { font-size: var(--fs-body); } .card__foot { margin-top: auto; padding-top: var(--s-4); }
   .value-card { text-align: left; } .value-card .card__icon { background: linear-gradient(160deg, rgba(212,175,55,0.16), rgba(11,27,58,0.05)); }
   .media-card { padding: 0; }
@@ -219,7 +220,7 @@
   .info-mini svg { width: 16px; height: 16px; flex: none; color: var(--gold); }
 
   .featured { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-6); align-items: center; background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-lg); overflow: hidden; }
-  .featured__media { position: relative; min-height: 340px; background: var(--midnight); align-self: stretch; }
+  .featured__media { position: relative; min-height: 300px; background: var(--midnight); align-self: stretch; }
   .featured__media .play__btn { width: 74px; height: 74px; }
   .featured__media .play__btn svg { width: 30px; height: 30px; }
   .featured__media img { width: 100%; height: 100%; object-fit: cover; }
@@ -641,7 +642,7 @@
         var media=feat.videoUrl
           ? '<div class="embed"><iframe src="'+esc(feat.videoUrl)+'" title="'+esc(feat.title)+'" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'
           : '<a class="featured__media" href="#sermons" aria-label="Watch: '+esc(feat.title)+'">'+placeholder("play",feat.series,"worship")+(feat.thumbnail||(id?"https://img.youtube.com/vi/"+id+"/maxresdefault.jpg":"")?'<img src="'+esc(feat.thumbnail||"https://img.youtube.com/vi/"+id+"/maxresdefault.jpg")+'" alt="'+esc(feat.title)+'" loading="lazy" onerror="this.style.display=\'none\'">':'')+'<span class="play"><span class="play__btn">'+ICONS.play+'</span></span></a>';
-        node.innerHTML='<article class="featured" data-reveal>'+media+'<div class="featured__body"><p class="card__meta">'+ICONS.play+' Featured · '+esc(feat.series)+'</p><h3 style="font-size:var(--fs-h2)">'+esc(feat.title)+'</h3><p class="mt-2">'+esc(feat.description)+'</p><p class="card__meta mt-4">'+esc(feat.speaker)+' &middot; '+fmtDate(feat.date)+'</p></div></article>';
+        node.innerHTML='<article class="featured" data-reveal>'+media+'<div class="featured__body"><p class="card__meta">'+ICONS.play+' Featured · '+esc(feat.series)+'</p><h3 style="font-size:var(--fs-h3)">'+esc(feat.title)+'</h3><p class="mt-2">'+esc(feat.description)+'</p><p class="card__meta mt-4">'+esc(feat.speaker)+' &middot; '+fmtDate(feat.date)+'</p></div></article>';
       });
       targets("sermons-grid").forEach(function(node){
         var limit=parseInt(node.getAttribute("data-limit")||"0",10);

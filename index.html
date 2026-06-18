@@ -219,6 +219,18 @@
   .info-mini li { display: flex; align-items: center; gap: 8px; font-size: var(--fs-sm); color: var(--ink-muted); }
   .info-mini svg { width: 16px; height: 16px; flex: none; color: var(--gold); }
 
+  /* Compact event cards (slim banner + tight body) */
+  .event-card .media-card__media { aspect-ratio: auto; height: 104px; }
+  .event-card .ph__icon { width: 40px; height: 40px; }
+  .event-card .ph__icon svg { width: 20px; height: 20px; }
+  .event-card .ph__label { display: none; }
+  .event-card .media-card__body { padding: var(--s-4); }
+  .event-card .card__meta { margin-bottom: 4px; }
+  .event-card h3 { font-size: 1.18rem; }
+  .event-card .media-card__body > p.mt-2 { margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .event-card .info-mini.mt-4 { margin-top: var(--s-3); gap: 6px; }
+  .event-card .card__foot { padding-top: var(--s-3); }
+
   .featured { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-6); align-items: center; background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-lg); overflow: hidden; }
   .featured__media { position: relative; min-height: 300px; background: var(--midnight); align-self: stretch; }
   .featured__media .play__btn { width: 74px; height: 74px; }
@@ -671,7 +683,7 @@
           var tone=CAT_TONE[ev.category]||"worship";
           var cta=ev.ctaUrl&&ev.ctaUrl!=="#"?'<a class="btn btn--outline-ink btn--sm" href="'+esc(ev.ctaUrl)+'">'+esc(ev.ctaLabel||"Learn More")+'</a>':'';
           var datebadge='<span class="tag tag--'+tone+'">'+esc(ev.category)+'</span>';
-          return '<article class="card media-card" data-reveal style="--reveal-delay:'+(i%3)*90+'ms">'+mediaBlock(ev.image,"calendar",ev.title,tone,datebadge)+'<div class="media-card__body"><p class="card__meta">'+ICONS.calendar+' '+fmtDate(ev.date)+'</p><h3>'+esc(ev.title)+'</h3><p class="mt-2">'+esc(ev.description)+'</p><ul class="info-mini mt-4"><li>'+ICONS.clock+' '+esc(ev.time||"")+'</li><li>'+ICONS.pin+' '+esc(ev.location||"")+'</li></ul>'+(cta?'<div class="card__foot">'+cta+'</div>':'')+'</div></article>';
+          return '<article class="card media-card event-card" data-reveal style="--reveal-delay:'+(i%3)*90+'ms">'+mediaBlock(ev.image,"calendar",ev.title,tone,datebadge)+'<div class="media-card__body"><p class="card__meta">'+ICONS.calendar+' '+fmtDate(ev.date)+'</p><h3>'+esc(ev.title)+'</h3><p class="mt-2">'+esc(ev.description)+'</p><ul class="info-mini mt-4"><li>'+ICONS.clock+' '+esc(ev.time||"")+'</li><li>'+ICONS.pin+' '+esc(ev.location||"")+'</li></ul>'+(cta?'<div class="card__foot">'+cta+'</div>':'')+'</div></article>';
         }).join("");
       });
     }

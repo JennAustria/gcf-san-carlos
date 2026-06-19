@@ -339,6 +339,9 @@
     .featured__body { padding: var(--s-4) var(--s-4) var(--s-5); }
     .section-head { margin-bottom: var(--s-5); }
     .stat-row { gap: var(--s-4) var(--s-5); }
+    .split__media { aspect-ratio: auto; height: 220px; } /* compact banner so empty image doesn't dominate phones */
+    .split__badge { left: 14px; bottom: 14px; padding: 10px 14px; }
+    .split__badge strong { font-size: 1.2rem; }
   }
   @media (max-width: 480px) { .container { padding-inline: var(--s-3); } .hero__card { padding: 24px 20px; } .stat-row { gap: var(--s-4); } .badge { font-size: 0.78rem; } .announce { font-size: var(--fs-xs); padding: 8px var(--s-3); } }
   @media (max-width: 380px) { .brand__sub { display: none; } .brand__name { font-size: 1rem; } }

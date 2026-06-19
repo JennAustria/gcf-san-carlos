@@ -120,9 +120,11 @@
   .lead { font-size: var(--fs-lead); color: var(--ink-muted); }
   .section--dark .lead { color: var(--on-dark-muted); }
 
-  .btn { --btn-pad-y: 14px; --btn-pad-x: 26px; display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2); padding: var(--btn-pad-y) var(--btn-pad-x); border-radius: var(--r-pill); font-weight: 600; font-size: 0.98rem; letter-spacing: 0.01em; line-height: 1; text-align: center; cursor: pointer; transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease); will-change: transform; position: relative; overflow: hidden; }
+  .btn { --btn-pad-y: 14px; --btn-pad-x: 26px; display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2); padding: var(--btn-pad-y) var(--btn-pad-x); border-radius: var(--r-pill); font-weight: 600; font-size: 0.98rem; letter-spacing: 0.01em; line-height: 1; text-align: center; cursor: pointer; transition: transform 0.32s var(--ease), box-shadow 0.32s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease); will-change: transform; position: relative; overflow: hidden; }
   .btn::after { content: ""; position: absolute; top: 0; left: -130%; width: 60%; height: 100%; background: linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent); transform: skewX(-20deg); transition: left 0.6s var(--ease); pointer-events: none; }
-  .btn:hover::after { left: 150%; } .btn:hover { transform: translateY(-2px); } .btn:active { transform: translateY(0); }
+  .btn:hover::after { left: 150%; }
+  .btn:hover, .btn:focus-visible { transform: translateY(-3px) scale(1.025); }
+  .btn:active { transform: translateY(-1px) scale(0.96); transition-duration: 0.09s; } /* tactile press */
   .btn--gold { background: linear-gradient(180deg, var(--gold-soft), var(--gold)); color: var(--midnight); box-shadow: var(--shadow-gold); }
   .btn--gold:hover { box-shadow: 0 12px 38px rgba(212,175,55,0.5); }
   .btn--glass { background: var(--glass-bg-strong); color: var(--white); border: 1px solid var(--glass-border); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }

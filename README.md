@@ -32,11 +32,10 @@ automatically when hosted on Netlify.
 ```
 index.html            # The ENTIRE website (HTML + CSS + JS + content)
 assets/img/
-  hero.png            # The church's hero/background photo
-  README.md           # Guide for adding more photos (about, give, leaders…)
+  hero.png            # Hero / background photo
+  favicon.png         # Browser-tab icon (circular church logo)
 robots.txt
 sitemap.xml
-WEBFLOW-MAPPING.md    # Reference: how each part maps to Webflow (optional)
 ```
 
 ---
@@ -70,11 +69,10 @@ Search `index.html` for these to update them directly in the markup:
 
 ## Photos & logo
 
-The site auto-detects images dropped into `assets/img/` — see
-[`assets/img/README.md`](assets/img/README.md). Key files:
+The site auto-detects images dropped into `assets/img/` (no code changes needed):
 - `hero.png` — hero background (already added)
 - `logo.png` / `logo.svg` — overrides the live Facebook logo with a sharper local one
-- `about.jpg`, `give.jpg`, `leaders/daniel.jpg` … — section photos
+- `about.jpg`, `give.jpg`, `leaders/daniel.jpg` … — section photos (placeholders show until added)
 
 The logo currently loads live from the church's Facebook page until a local `logo.*` is added.
 

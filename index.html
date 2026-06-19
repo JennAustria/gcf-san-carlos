@@ -188,9 +188,14 @@
   .scroll-hint { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 1; color: rgba(255,255,255,0.6); font-size: var(--fs-xs); letter-spacing: 0.2em; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .scroll-hint span { width: 1px; height: 34px; background: linear-gradient(var(--gold), transparent); animation: scrolldown 2s ease-in-out infinite; }
 
-  .card { position: relative; background: var(--surface); border-radius: var(--r-md); border: 1px solid rgba(11,27,58,0.08); box-shadow: var(--shadow-md); padding: var(--s-5); transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease); height: 100%; display: flex; flex-direction: column; overflow: hidden; }
-  .card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(212,175,55,0); transition: box-shadow 0.35s var(--ease); pointer-events: none; }
-  .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); } .card:hover::after { box-shadow: inset 0 0 0 1px rgba(212,175,55,0.35); }
+  .card { position: relative; background: var(--surface); border-radius: var(--r-md); border: 1px solid rgba(11,27,58,0.08); box-shadow: var(--shadow-md); padding: var(--s-5); transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease); will-change: transform; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+  .card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(212,175,55,0); transition: box-shadow 0.4s var(--ease); pointer-events: none; z-index: 3; }
+  /* Cursor-following gold spotlight (position set by JS via --mx/--my) */
+  .card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(212,175,55,0.18), transparent 60%); opacity: 0; transition: opacity 0.45s var(--ease); pointer-events: none; z-index: 2; }
+  .card:hover, .card:focus-within { transform: translateY(-8px) scale(1.015); box-shadow: var(--shadow-lg), 0 18px 44px rgba(212,175,55,0.20); border-color: rgba(212,175,55,0.45); }
+  .card:hover::after, .card:focus-within::after { box-shadow: inset 0 0 0 1px rgba(212,175,55,0.45); }
+  .card:hover::before, .card:focus-within::before { opacity: 1; }
+  .card:active { transform: translateY(-4px) scale(1.004); transition-duration: 0.12s; }
   .card__icon { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 14px; background: linear-gradient(160deg, rgba(11,27,58,0.06), rgba(212,175,55,0.12)); color: var(--royal-blue); margin-bottom: var(--s-4); }
   .card__icon svg { width: 26px; height: 26px; }
   .card h3 { margin-bottom: var(--s-2); }
@@ -236,7 +241,8 @@
   .event-card .info-mini.mt-4 { margin-top: var(--s-3); gap: 6px; }
   .event-card .card__foot { padding-top: var(--s-3); }
 
-  .featured { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-6); align-items: center; background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-lg); overflow: hidden; }
+  .featured { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-6); align-items: center; background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-lg); overflow: hidden; transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease); }
+  .featured:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg), 0 22px 50px rgba(212,175,55,0.16); }
   .featured__media { position: relative; min-height: 300px; background: var(--midnight); align-self: stretch; }
   .featured__media .play__btn { width: 74px; height: 74px; }
   .featured__media .play__btn svg { width: 30px; height: 30px; }
@@ -349,7 +355,8 @@
     *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
     [data-reveal] { opacity: 1; transform: none; }
     .hero__rays, .badge__dot, .scroll-hint span, .hero__bg::before, .hero__bg::after, .hero__card::before { animation: none; }
-    .hero__card::before { display: none; } .btn::after { display: none; }
+    .hero__card::before { display: none; } .btn::after { display: none; } .card::before { display: none; }
+    .card:hover, .card:focus-within { transform: none; } .featured:hover { transform: none; }
   }
   </style>
 </head>
@@ -809,6 +816,21 @@
         var success=document.querySelector("[data-form-success]"); var nameField=form.querySelector("[name='name']");
         if(success){ var first=nameField&&nameField.value?nameField.value.split(" ")[0]:"friend"; var slot=success.querySelector("[data-success-name]"); if(slot) slot.textContent=first; form.style.display="none"; success.classList.add("is-visible"); success.scrollIntoView({behavior:reduceMotion?"auto":"smooth",block:"center"}); }
       });
+    }
+
+    /* ---------- cursor spotlight on cards ---------- */
+    if (!reduceMotion && window.matchMedia("(pointer: fine)").matches) {
+      var spotRaf = null, spotCard = null, spotX = 0, spotY = 0;
+      document.addEventListener("pointermove", function (e) {
+        var card = e.target.closest && e.target.closest(".card");
+        if (!card) return;
+        var r = card.getBoundingClientRect();
+        spotCard = card; spotX = e.clientX - r.left; spotY = e.clientY - r.top;
+        if (!spotRaf) spotRaf = requestAnimationFrame(function () {
+          spotRaf = null;
+          if (spotCard) { spotCard.style.setProperty("--mx", spotX + "px"); spotCard.style.setProperty("--my", spotY + "px"); }
+        });
+      }, { passive: true });
     }
 
     /* ---------- inertia smooth scrolling (desktop) ---------- */
